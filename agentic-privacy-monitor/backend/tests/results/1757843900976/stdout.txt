@@ -1,0 +1,40 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Library/Frameworks/Python.framework/Versions/3.9/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /Users/gracebilliris/Projects/agentsystem/agentic-privacy-monitor/backend/tests
+plugins: anyio-4.9.0
+collecting ... collected 12 items
+
+test_basic_metrics.py::test_k_anonymity_min_and_avg PASSED               [  8%]
+test_basic_metrics.py::test_l_diversity_distinct PASSED                  [ 16%]
+test_basic_metrics.py::test_l_diversity_entropy PASSED                   [ 25%]
+test_basic_metrics.py::test_t_closeness_categorical PASSED               [ 33%]
+test_basic_metrics.py::test_t_closeness_numeric PASSED                   [ 41%]
+test_basic_metrics.py::test_linkage_attack_unique_and_multiple FAILED    [ 50%]
+test_basic_metrics.py::test_full_report_structure PASSED                 [ 58%]
+test_basic_metrics.py::test_full_report_linkage_attack_flag FAILED       [ 66%]
+test_basic_metrics.py::test_entropy_effective_l_vs_distinct PASSED       [ 75%]
+test_basic_metrics.py::test_rare_combinations_behavior PASSED            [ 83%]
+test_basic_metrics.py::test_sensitive_skew_detection PASSED              [ 91%]
+test_basic_metrics.py::test_numeric_qi_sensitive_correlation PASSED      [100%]
+
+=================================== FAILURES ===================================
+___________________ test_linkage_attack_unique_and_multiple ____________________
+test_basic_metrics.py:92: in test_linkage_attack_unique_and_multiple
+    assert results["unique"] >= 1
+E   assert 0 >= 1
+_____________________ test_full_report_linkage_attack_flag _____________________
+test_basic_metrics.py:139: in test_full_report_linkage_attack_flag
+    assert any("Re-identification probability" in f for f in flags)
+E   assert False
+E    +  where False = any(<generator object test_full_report_linkage_attack_flag.<locals>.<genexpr> at 0x7fad217f0dd0>)
+=============================== warnings summary ===============================
+test_basic_metrics.py::test_numeric_qi_sensitive_correlation
+  /Users/gracebilliris/Projects/agentsystem/agentic-privacy-monitor/backend/privacy_validator/anonymisation_validator.py:304: FutureWarning: In a future version of pandas, a length 1 tuple will be returned when iterating over a groupby with a grouper equal to a list of length 1. Don't supply a list with a single grouper to avoid this warning.
+    for qi_vals, group in grouped:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test_basic_metrics.py::test_linkage_attack_unique_and_multiple - asser...
+FAILED test_basic_metrics.py::test_full_report_linkage_attack_flag - assert F...
+=================== 2 failed, 10 passed, 1 warning in 1.53s ====================

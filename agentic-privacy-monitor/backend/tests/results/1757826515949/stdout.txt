@@ -1,0 +1,76 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Library/Frameworks/Python.framework/Versions/3.9/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /Users/gracebilliris/Projects/agentsystem/agentic-privacy-monitor/backend/tests
+plugins: anyio-4.9.0
+collecting ... collected 18 items
+
+test_basic_metrics.py::test_k_anonymity_min_and_avg PASSED               [  5%]
+test_basic_metrics.py::test_l_diversity_distinct PASSED                  [ 11%]
+test_basic_metrics.py::test_l_diversity_entropy PASSED                   [ 16%]
+test_basic_metrics.py::test_t_closeness_categorical PASSED               [ 22%]
+test_basic_metrics.py::test_t_closeness_numeric PASSED                   [ 27%]
+test_basic_metrics.py::test_linkage_attack_unique_and_multiple FAILED    [ 33%]
+test_basic_metrics.py::test_linkage_attack_empty_aux FAILED              [ 38%]
+test_basic_metrics.py::test_full_report_structure PASSED                 [ 44%]
+test_basic_metrics.py::test_singleton_classes PASSED                     [ 50%]
+test_basic_metrics.py::test_perfect_diversity PASSED                     [ 55%]
+test_basic_metrics.py::test_zero_diversity PASSED                        [ 61%]
+test_basic_metrics.py::test_entropy_l_diversity_effective_threshold PASSED [ 66%]
+test_basic_metrics.py::test_full_report_with_entropy_l_threshold PASSED  [ 72%]
+test_basic_metrics.py::test_full_report_linkage_attack_flag FAILED       [ 77%]
+test_basic_metrics.py::test_entropy_effective_l_vs_distinct PASSED       [ 83%]
+test_basic_metrics.py::test_rare_combinations_behavior PASSED            [ 88%]
+test_basic_metrics.py::test_sensitive_skew_detection PASSED              [ 94%]
+test_basic_metrics.py::test_numeric_qi_sensitive_correlation PASSED      [100%]
+
+=================================== FAILURES ===================================
+___________________ test_linkage_attack_unique_and_multiple ____________________
+test_basic_metrics.py:93: in test_linkage_attack_unique_and_multiple
+    assert results["unique"] >= 1
+E   assert 0 >= 1
+________________________ test_linkage_attack_empty_aux _________________________
+test_basic_metrics.py:104: in test_linkage_attack_empty_aux
+    results = simulate_linkage_attack(simple_df, aux, ["age_band", "zip"])
+../privacy_validator/anonymisation_validator.py:48: in simulate_linkage_attack
+    multiple = int((counts > 1).sum())
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/ops/common.py:72: in new_method
+    return method(self, other)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/arraylike.py:58: in __gt__
+    return self._cmp_method(other, operator.gt)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/series.py:6243: in _cmp_method
+    res_values = ops.comparison_op(lvalues, rvalues, op)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/ops/array_ops.py:273: in comparison_op
+    res_values = op(lvalues, rvalues)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/ops/common.py:72: in new_method
+    return method(self, other)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/arrays/categorical.py:144: in func
+    raise TypeError(
+E   TypeError: Unordered Categoricals can only compare equality or not
+_____________________ test_full_report_linkage_attack_flag _____________________
+test_basic_metrics.py:270: in test_full_report_linkage_attack_flag
+    assert len(reid_flags) > 0
+E   assert 0 > 0
+E    +  where 0 = len([])
+=============================== warnings summary ===============================
+test_basic_metrics.py::test_linkage_attack_empty_aux
+  /Users/gracebilliris/Projects/agentsystem/agentic-privacy-monitor/backend/privacy_validator/anonymisation_validator.py:44: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+  To preserve the previous behavior, use
+  
+  	>>> .groupby(..., group_keys=False)
+  
+  To adopt the future behavior and silence this warning, use 
+  
+  	>>> .groupby(..., group_keys=True)
+    counts = merged.groupby("__aux_id__")["_merge"].apply(lambda s: (s == "both").sum())
+
+test_basic_metrics.py::test_numeric_qi_sensitive_correlation
+  /Users/gracebilliris/Projects/agentsystem/agentic-privacy-monitor/backend/privacy_validator/anonymisation_validator.py:317: FutureWarning: In a future version of pandas, a length 1 tuple will be returned when iterating over a groupby with a grouper equal to a list of length 1. Don't supply a list with a single grouper to avoid this warning.
+    for qi_vals, group in grouped:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test_basic_metrics.py::test_linkage_attack_unique_and_multiple - asser...
+FAILED test_basic_metrics.py::test_linkage_attack_empty_aux - TypeError: Unor...
+FAILED test_basic_metrics.py::test_full_report_linkage_attack_flag - assert 0...
+=================== 3 failed, 15 passed, 2 warnings in 2.13s ===================

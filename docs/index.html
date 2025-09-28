@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>Privacy Anonymisation Risk Assessor (PARA)</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 2em;
+                background: #f9f9f9;
+                color: #222;
+            }
+            h1,
+            h2,
+            h3 {
+                color: #0057b7;
+            }
+            .authors {
+                margin-bottom: 1em;
+            }
+            .section {
+                margin-bottom: 2em;
+            }
+            .acm-ref {
+                font-size: 0.95em;
+                color: #444;
+            }
+            .contact {
+                font-size: 0.95em;
+                color: #444;
+            }
+            .abstract {
+                background: #eef;
+                padding: 1em;
+                border-radius: 6px;
+            }
+            .footer {
+                margin-top: 2em;
+                font-size: 0.9em;
+                color: #888;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Privacy Anonymisation Risk Assessor (PARA): An Agentic Prototype for Anonymisation Risk Assessment in Tabular Data</h1>
+        <div class="authors">
+            <strong>Grace Billiris</strong><br />
+            School of Computer Science, University of Technology, Sydney, Australia<br />
+            <span class="contact">grace.v.billiris@student.uts.edu.au</span><br /><br />
+            <strong>Asif Qumer Gill</strong><br />
+            School of Computer Science, University of Technology, Sydney, Australia<br />
+            <span class="contact">asif.gill@uts.edu.au</span><br /><br />
+            <strong>Madhushi Bandara</strong><br />
+            School of Computer Science, University of Technology, Sydney, Australia<br />
+            <span class="contact">madhushi.bandara@uts.edu.au</span>
+        </div>
+
+        <div class="section abstract">
+            <h3>ABSTRACT</h3>
+            <p>
+                Software developers use datasets for training, validating and testing AI systems and underpinning models. Data privacy risks, including the
+                possibility of de-anonymisation, remain a challenge across the AI system development lifecycle (SDLC). Existing data governance frameworks often
+                require specialist knowledge and manual processes, making risk assessment difficult. This paper presents the Privacy Anonymisation Risk Assessor
+                (PARA), a prototype multi-agent system designed to assess dataset de-anonymisation risks. PARA is intended to be used by software developers to
+                detect risks by inspecting datasets, calculating de-anonymisation metrics, and obtaining individual dataset-level assessment reports. The
+                research uses a Design Science Research Methodology (DSRM) to develop and evaluate PARA. Demonstration on publicly available Australian Census
+                data confirmed the prototype’s potential applicability – producing assessment reports for each dataset. While this initial evaluation is
+                limited, PARA can support developers in assessing data privacy risks and producing auditable feedback throughout the AI SDLC.
+            </p>
+            <h3>CCS CONCEPTS</h3>
+            <p>• Data anonymisation and sanitisation • Privacy-preserving protocols • Software verification and validation</p>
+            <h3>KEYWORDS</h3>
+            <p>Risk Assessor, Data Privacy, Anonymisation, Governance</p>
+        </div>
+
+        <div class="section">
+            <h2>1 Introduction</h2>
+            <p>
+                AI systems rely on data to train, validate, and test models [9]. Software developers must check datasets for fitness, copyright compliance, and
+                privacy requirements to avoid legal, ethical, and reputational risks [14]. Despite preprocessing, combinations of indirect identifiers may
+                reveal identities [1,2,16]. Data privacy risks exist across AI SDLC stages: Initiate, Discover, Develop, Operate, Govern, and Adapt [9]. Current
+                frameworks (NIST Privacy Framework, NIST AI RMF, EU AI Act) provide guidance but often require manual expertise, complicating consistent risk
+                assessment [6,7,8,12].
+            </p>
+            <p>
+                This paper proposes the Privacy Anonymisation Risk Assessor (PARA), a multi-agent system for assessing de-anonymisation risk in tabular data.
+                PARA generates anonymisation thresholds, calculates risk statistics, and produces auditable, per-dataset reports to help developers make
+                informed decisions.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>2 Research Background and Related Work</h2>
+            <p>
+                AI systems can expose sensitive information through model inversion and membership inference attacks [3,4,5,12]. Large language models may
+                retain training data [5,10,11], demonstrating that anonymisation alone may not fully protect privacy [1,3,4,5]. Common methods to assess
+                de-anonymisation risk include k-anonymity, l-diversity, t-closeness, and linkage-based risk estimation [2,13]. These methods are informative but
+                can be complex to interpret in sparse or longitudinal datasets [2], indicating the need for tools like PARA to help developers assess privacy
+                risks across AI SDLC stages [12].
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>3 Research Methodology</h2>
+            <p>
+                This research applied Design Science Research Methodology (DSRM) to develop and evaluate PARA [13]. The six DSRM steps are: (1) problem
+                identification, (2) solution design, (3) prototype development, (4) demonstration, (5) evaluation, and (6) communication. This paper focuses on
+                Steps 1–4 with indicative findings from Step 5.
+            </p>
+            <div class="figure">
+                <img
+                    src="DRSM.png"
+                    alt="Figure 1: DSRM"
+                    style="max-width: 100%; height: auto"
+                />
+                <p class="caption"><strong>Figure 1:</strong> Design Science Research Methodology (DSRM). Adapted from [13].</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4 PARA System Design and Development</h2>
+            <p>
+                PARA uses a hierarchical multi-agent system (HMAS) with a top-level Orchestrator Agent supervising three specialised agents: Scanner, Validator,
+                and Summariser (Table 1). The prototype was developed using Google’s Agent Development Kit (ADK) with Model Context Protocol (MCP) and Gemma LLM
+                (“gemma-3n-e4b-it”) integration [19].
+            </p>
+            <div class="figure">
+                <img
+                    src="PARA-Architecture.png"
+                    alt="Figure 2: PARA System Architecture"
+                    style="max-width: 100%; height: auto"
+                />
+                <p class="caption">
+                    <strong>Figure 2:</strong> PARA architecture and agent interactions. Human developers interact with the dashboard (1), which communicates
+                    with the Orchestrator (2) coordinating Scanner (3), Validator (4), and Summariser (5). External resources (6–11) support data inspection,
+                    anonymisation computation, LLM assistance, observability, and downstream usage.
+                </p>
+            </div>
+            <table
+                border="1"
+                cellpadding="4"
+                style="margin: 1em 0"
+            >
+                <tr>
+                    <th>NO.</th>
+                    <th>COMPONENT</th>
+                    <th>DESCRIPTION</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>User Interface (dashboard)</td>
+                    <td>Web dashboard for triggering scans, monitoring progress, and viewing reports.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Orchestrator Agent</td>
+                    <td>Central agent that coordinates specialised agents.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Scanner Agent</td>
+                    <td>Search datasets; returns dataset scan results including anonymisation thresholds, quasi-identifiers and sensitive columns.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Validator Agent</td>
+                    <td>Computes de-anonymisation risk statistics; returns assessment results.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Summariser Agent</td>
+                    <td>Provides auditable assessment report.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>MCP Client</td>
+                    <td>Client for agent-server communication.</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>MCP Server A</td>
+                    <td>Access data repository for dataset inspection and schema retrieval.</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>MCP Server B</td>
+                    <td>Assess de-anonymisation risk via statistical modules.</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>LLM Model</td>
+                    <td>Gemma “gemma-3n-e4b-it”, used for thresholds and assessment reports.</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Observability Store</td>
+                    <td>Central logs and metrics for all agents.</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>External Layer</td>
+                    <td>Downstream AI systems/services; PARA scans this repository to assess anonymisation risk.</td>
+                </tr>
+            </table>
+            <p><em>Table 1: Core user‑facing and runtime components; external resources (7–11) shown in Figure 2.</em></p>
+        </div>
+
+        <div class="section">
+            <h2>5 PARA Demonstration and (Indicative) Evaluation</h2>
+            <p>
+                The prototype was demonstrated in the Discover phase of the AI SDLC using 2021 Australian Census tabular datasets. Developers initiate
+                assessments via the Privacy Monitor tab, with individual dataset results accessible in the Recent Reports tab. Figure 3 shows example assessment
+                reports.
+            </p>
+            <div class="figure">
+                <img
+                    src="PARA-Demonstration.png"
+                    alt="Figure 3: PARA Demonstration Reports"
+                    style="max-width: 100%; height: auto"
+                />
+                <p class="caption"><strong>Figure 3:</strong> Detailed assessment reports from the PARA demonstration on 2021 Australian Census datasets.</p>
+            </div>
+            <p>
+                The demonstration served as an indicative evaluation, showing that PARA can produce auditable assessment reports for multiple datasets in a
+                controlled environment.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>6 Discussion</h2>
+            <p>
+                The evaluation highlighted PARA’s potential to support developers in assessing anonymisation risks during AI SDLC. While the evaluation was
+                limited in scope and formal measures of accuracy, scalability, and usability were not conducted, the prototype shows promise in generating
+                dataset-level, auditable assessment reports. Future work will expand testing, conduct usability studies, and refine risk estimation techniques.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>7 Conclusion</h2>
+            <p>
+                PARA is a multi-agent prototype to support developers in assessing de-anonymisation risks in tabular datasets during AI SDLC. The demonstration
+                indicated that it can produce auditable assessment reports for multiple datasets, providing actionable feedback for dataset usage decisions.
+                Future work will expand applicability, refine risk estimation, and conduct usability studies.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Acknowledgments</h2>
+            <p>
+                This research is supported by an Australian Government Research Training Program Scholarship. The authors gratefully acknowledge this support.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>References</h2>
+            <ol>
+                <li>
+                    Bravo-Hermsdorff, G., Busa-Fekete, R., Gunderson, L. M., Muñoz Medina, A., and Syed, U. 2022. Statistical anonymity: Quantifying
+                    reidentification risks without reidentifying users. arXiv:2201.12306.
+                </li>
+                <li>Narayanan, A., and Shmatikov, V. 2008. Robust De‑anonymization of Large Sparse Datasets. IEEE Symposium on Security and Privacy.</li>
+                <li>Fredrikson, M., Jha, S., and Ristenpart, T. 2015. Model Inversion Attacks that Exploit Confidence Information. ACM CCS.</li>
+                <li>Shokri, R., Stronati, M., Song, C., and Shmatikov, V. 2017. Membership Inference Attacks Against Machine Learning Models. IEEE S&P.</li>
+                <li>Carlini, N., et al. 2021. Extracting Training Data from Large Language Models. USENIX Security Symposium.</li>
+                <li>NIST. 2020. NIST Privacy Framework: A Tool for Improving Privacy through Enterprise Risk Management (Version 1.0).</li>
+                <li>NIST. 2023. Artificial Intelligence Risk Management Framework (AI RMF 1.0).</li>
+                <li>European Union. 2024. Artificial Intelligence Act (EU AI Act).</li>
+                <li>Gill, A. Q. 2025. Agile System Development Lifecycle for AI Systems: Decision Architecture. arXiv:2501.09434.</li>
+                <li>
+                    Veale, M., Binns, R., and Edwards, L. 2018. Algorithms that remember: model inversion attacks and data protection law. Phil. Trans. R. Soc.
+                    A 376(2133):20180083.
+                </li>
+                <li>Song, C., Ristenpart, T., and Shmatikov, V. 2017. Machine learning models that remember too much. Proc. ACM CCS, 587–601.</li>
+                <li>
+                    Prybylo, M., Haghighi, S., Peddinti, S. T., and Ghanavati, S. 2024. Evaluating Privacy Perceptions, Experience, and Behavior of Software
+                    Development Teams. arXiv:2404.01283 [cs.SE].
+                </li>
+                <li>
+                    Hargitai, V., Shklovski, I., and Wąsowski, A. 2018. Going beyond obscurity: Organizational approaches to data anonymization. Proc. ACM
+                    CSCW’18, Article 267.
+                </li>
+                <li>
+                    Billiris, G., Gill, A., Oppermann, I., and Niazi, M., 2024. Towards the Development of a Copyright Risk Checker Tool for Generative AI
+                    Systems. Digital Government: Research and Practice, 5(4), 1–21.
+                </li>
+                <li>
+                    Moore, D. J. 2025. A Taxonomy of Hierarchical Multi‑Agent Systems: Design Patterns, Coordination Mechanisms, and Industrial Applications.
+                    arXiv:2508.12683 [cs.MA].
+                </li>
+                <li>NSLP 2024. Lecture Notes in Computer Science, Vol. 14770. Springer, Cham.</li>
+                <li>
+                    He, J., Borisova, E., and Rehm, G. 2024. Towards a Novel Classification of Table Types in Scholarly Publications. In NSLP 2024, LNCS, Vol.
+                    14770, Springer, Cham, 31–48.
+                </li>
+                <li>
+                    Cabral, R., and Kalinowski, M. 2024. Investigating the Impact of SOLID Design Principles on Machine Learning Code Understanding. In SBQS
+                    ’24, ACM, 703–705.
+                </li>
+                <li>Google. 2025. Multi-agent systems. Agent Development Kit Documentation. https://google.github.io/adk-docs/agents/multi-agents/</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>Appendix</h2>
+            <p>
+                Prototype source code:
+                <a
+                    href="https://github.com/gracebilliris/para-privacy-anonymisation-risk-assessor"
+                    target="_blank"
+                    >GitHub Repository</a
+                ><br />
+                Prototype demonstration:
+                <a
+                    href="https://youtu.be/qGkDELNTh8M"
+                    target="_blank"
+                    >YouTube Video</a
+                >
+            </p>
+        </div>
+
+        <div class="footer">© 2025 Grace Billiris, Asif Gill, Madhushi Bandara</div>
+    </body>
+</html>

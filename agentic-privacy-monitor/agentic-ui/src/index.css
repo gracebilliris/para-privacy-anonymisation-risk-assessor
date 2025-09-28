@@ -1,0 +1,98 @@
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f7f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-bar {
+    background: #2d3e50;
+    color: #fff;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menu-bar h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.menu-bar nav a {
+    color: #fff;
+    margin-left: 24px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.menu-bar nav a:hover {
+    color: #ffd700;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+    padding: 32px 40px;
+}
+
+.button-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+button {
+    background: #2d3e50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #1a232e;
+}
+
+.loading {
+    color: #555;
+    font-style: italic;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+.results-table th,
+.results-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.results-table th {
+    background: #f2f2f2;
+    text-align: left;
+}
+
+.result-block {
+    background: #f0f7ff;
+    border-left: 4px solid #2d3e50;
+    padding: 20px;
+    margin-top: 24px;
+    border-radius: 8px;
+}
+
+pre {
+    background: #fafafa;
+    padding: 12px;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}

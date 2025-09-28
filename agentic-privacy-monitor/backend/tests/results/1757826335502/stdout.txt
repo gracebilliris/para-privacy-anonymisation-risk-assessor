@@ -1,0 +1,59 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Library/Frameworks/Python.framework/Versions/3.9/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /Users/gracebilliris/Projects/agentsystem/agentic-privacy-monitor/backend/tests
+plugins: anyio-4.9.0
+collecting ... collected 11 items
+
+test_basic_metrics.py::test_k_anonymity_min_and_avg PASSED               [  9%]
+test_basic_metrics.py::test_l_diversity_distinct PASSED                  [ 18%]
+test_basic_metrics.py::test_l_diversity_entropy PASSED                   [ 27%]
+test_basic_metrics.py::test_t_closeness_categorical PASSED               [ 36%]
+test_basic_metrics.py::test_t_closeness_numeric PASSED                   [ 45%]
+test_basic_metrics.py::test_linkage_attack_unique_and_multiple FAILED    [ 54%]
+test_basic_metrics.py::test_linkage_attack_empty_aux FAILED              [ 63%]
+test_basic_metrics.py::test_full_report_structure PASSED                 [ 72%]
+test_basic_metrics.py::test_singleton_classes PASSED                     [ 81%]
+test_basic_metrics.py::test_perfect_diversity PASSED                     [ 90%]
+test_basic_metrics.py::test_zero_diversity PASSED                        [100%]
+
+=================================== FAILURES ===================================
+___________________ test_linkage_attack_unique_and_multiple ____________________
+test_basic_metrics.py:93: in test_linkage_attack_unique_and_multiple
+    assert results["unique"] >= 1
+E   assert 0 >= 1
+________________________ test_linkage_attack_empty_aux _________________________
+test_basic_metrics.py:104: in test_linkage_attack_empty_aux
+    results = simulate_linkage_attack(simple_df, aux, ["age_band", "zip"])
+../privacy_validator/anonymisation_validator.py:48: in simulate_linkage_attack
+    multiple = int((counts > 1).sum())
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/ops/common.py:72: in new_method
+    return method(self, other)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/arraylike.py:58: in __gt__
+    return self._cmp_method(other, operator.gt)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/series.py:6243: in _cmp_method
+    res_values = ops.comparison_op(lvalues, rvalues, op)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/ops/array_ops.py:273: in comparison_op
+    res_values = op(lvalues, rvalues)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/ops/common.py:72: in new_method
+    return method(self, other)
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.11.9/site-packages/pandas/core/arrays/categorical.py:144: in func
+    raise TypeError(
+E   TypeError: Unordered Categoricals can only compare equality or not
+=============================== warnings summary ===============================
+test_basic_metrics.py::test_linkage_attack_empty_aux
+  /Users/gracebilliris/Projects/agentsystem/agentic-privacy-monitor/backend/privacy_validator/anonymisation_validator.py:44: FutureWarning: Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+  To preserve the previous behavior, use
+  
+  	>>> .groupby(..., group_keys=False)
+  
+  To adopt the future behavior and silence this warning, use 
+  
+  	>>> .groupby(..., group_keys=True)
+    counts = merged.groupby("__aux_id__")["_merge"].apply(lambda s: (s == "both").sum())
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test_basic_metrics.py::test_linkage_attack_unique_and_multiple - asser...
+FAILED test_basic_metrics.py::test_linkage_attack_empty_aux - TypeError: Unor...
+==================== 2 failed, 9 passed, 1 warning in 1.75s ====================
